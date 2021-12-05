@@ -2,13 +2,13 @@ package BasePackage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import static BasePackage.BaseTest.driver;
 
@@ -63,6 +63,38 @@ public class BasePage {
         builder.perform();
     }
 
+    public static String getPageCurrentURL() {
+        String currentURL = null;
+        try {
+            currentURL = driver.getCurrentUrl();
+        } catch (Exception e) {
+            System.out.println("some exception occurred while getting the current url " + currentURL);
+        }
+        return currentURL;
+    }
+
+    public static String handleNewTabAndGetURL(){
+        String currentURL = null;
+        List<String> browserTabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(browserTabs .get(1));
+        try {
+            currentURL = driver.getCurrentUrl();
+        } catch (Exception e) {
+            System.out.println("some exception occurred while getting the current url " + currentURL);
+        }
+        return currentURL;
+    }
+
+    public static void closeNewTab(){
+
+        List<String> browserTabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.close();
+        driver.switchTo().window(browserTabs.get(0));
+    }
+
+    public static void refreshPage(){
+        driver.navigate().refresh();
+    }
 
 
 
